@@ -18,7 +18,7 @@ public class WebSecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests((requests) -> requests
-            .requestMatchers("/", "/home").permitAll()
+            .requestMatchers("/ ", "/home").permitAll()
             .anyRequest().authenticated()
         )
         .formLogin((form) -> form
@@ -34,11 +34,17 @@ public class WebSecurityConfig {
   public UserDetailsService userDetailsService() {
     UserDetails user =
         User.withDefaultPasswordEncoder()
-            .username("user")
-            .password("password")
+            .username("root")
+            .password("root")
+            .roles("USER")
+            .build();
+    UserDetails user2 =
+        User.withDefaultPasswordEncoder()
+            .username("xd")
+            .password("xd")
             .roles("USER")
             .build();
 
-    return new InMemoryUserDetailsManager(user);
+    return new InMemoryUserDetailsManager(user,user2);
   }
 }
